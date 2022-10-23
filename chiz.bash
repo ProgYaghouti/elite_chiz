@@ -402,7 +402,7 @@ auto_tls_config() {
 		else
 			if [[ "$auto_install_caddy" == [Yy] ]]; then
 				caddy=true
-				install_caddy_info="打开"
+				install_caddy_info="Open"
 				echo
 				echo
 				echo -e "$yellow Automatic configuration TLS = $cyan$install_caddy_info$none"
@@ -410,7 +410,7 @@ auto_tls_config() {
 				echo
 				break
 			elif [[ "$auto_install_caddy" == [Nn] ]]; then
-				install_caddy_info="关闭"
+				install_caddy_info="closure"
 				echo
 				echo
 				echo -e "$yellow Automatic configuration TLS = $cyan$install_caddy_info$none"
@@ -526,7 +526,7 @@ blocked_hosts() {
 			break
 			;;
 		N | n)
-			blocked_ad_info="关闭"
+			blocked_ad_info="closure"
 			echo
 			echo
 			echo -e "$yellow ad blocker = $cyan on $none"
@@ -566,13 +566,13 @@ shadowsocks_config() {
 shadowsocks_port_config() {
 	local random=$(shuf -i20001-65535 -n1)
 	while :; do
-		echo -e "请输入 "$yellow"Shadowsocks"$none" 端口 ["$magenta"1-65535"$none"]，不能和 "$yellow"V2Ray"$none" 端口相同"
-		read -p "$(echo -e "(默认端口: ${cyan}${random}$none):") " ssport
+		echo -e "Please enter "$yellow"Shadowsocks"$none" port ["$magenta"1-65535"$none"], cannot be the same as "$yellow"V2Ray"$none" port"
+		read -p "$(echo -e "(default port: ${cyan}${random}$none):") " ssport
 		[ -z "$ssport" ] && ssport=$random
 		case $ssport in
 		$v2ray_port)
 			echo
-			echo " 不能和 V2Ray 端口一毛一样...."
+			echo " Not the same as the V2Ray port..."
 			error
 			;;
 		[1-9] | [1-9][0-9] | [1-9][0-9][0-9] | [1-9][0-9][0-9][0-9] | [1-5][0-9][0-9][0-9][0-9] | 6[0-4][0-9][0-9][0-9] | 65[0-4][0-9][0-9] | 655[0-3][0-5])
@@ -581,24 +581,24 @@ shadowsocks_port_config() {
 			fi
 			if [[ $tls && $ssport == "80" ]] || [[ $tls && $ssport == "443" ]]; then
 				echo
-				echo -e "由于你已选择了 "$green"WebSocket + TLS $none或$green HTTP/2"$none" 传输协议."
+				echo -e "Because you have selected "$green"WebSocket + TLS $none or $green HTTP/2"$none" transport."
 				echo
-				echo -e "所以不能选择 "$magenta"80"$none" 或 "$magenta"443"$none" 端口"
+				echo -e "So the "$magenta"80"$none" or "$magenta"443"$none" ports cannot be selected"
 				error
 			elif [[ $v2ray_dynamic_port_start_input == $ssport || $v2ray_dynamic_port_end_input == $ssport ]]; then
 				local multi_port="${v2ray_dynamic_port_start_input} - ${v2ray_dynamic_port_end_input}"
 				echo
-				echo " 抱歉，此端口和 V2Ray 动态端口 冲突，当前 V2Ray 动态端口范围为：$multi_port"
+				echo "Sorry, this port conflicts with V2Ray dynamic port, the current V2Ray dynamic port range is: $multi_port"
 				error
 			elif [[ $v2ray_dynamic_port_start_input -lt $ssport && $ssport -le $v2ray_dynamic_port_end_input ]]; then
 				local multi_port="${v2ray_dynamic_port_start_input} - ${v2ray_dynamic_port_end_input}"
 				echo
-				echo " 抱歉，此端口和 V2Ray 动态端口 冲突，当前 V2Ray 动态端口范围为：$multi_port"
+				echo " Sorry, this port conflicts with V2Ray dynamic port, the current V2Ray dynamic port range is: $multi_port"
 				error
 			else
 				echo
 				echo
-				echo -e "$yellow Shadowsocks 端口 = $cyan$ssport$none"
+				echo -e "$yellow Shadowsocks port = $cyan$ssport$none"
 				echo "----------------------------------------------------------------"
 				echo
 				break
@@ -616,20 +616,20 @@ shadowsocks_port_config() {
 shadowsocks_password_config() {
 
 	while :; do
-		echo -e "请输入 "$yellow"Shadowsocks"$none" 密码"
-		read -p "$(echo -e "(默认密码: ${cyan}233blog.com$none)"): " sspass
+		echo -e "please enter "$yellow"Shadowsocks"$none" password"
+		read -p "$(echo -e "(default password: ${cyan}233blog.com$none)"): " sspass
 		[ -z "$sspass" ] && sspass="233blog.com"
 		case $sspass in
 		*[/$]*)
 			echo
-			echo -e " 由于这个脚本太辣鸡了..所以密码不能包含$red / $none或$red $ $none这两个符号.... "
+			echo -e "Since this script is too spicy.. so the password cannot contain the two symbols $red / $none or $red $ $none. …"
 			echo
 			error
 			;;
 		*)
 			echo
 			echo
-			echo -e "$yellow Shadowsocks 密码 = $cyan$sspass$none"
+			echo -e "$yellow Shadowsocks password = $cyan$sspass$none"
 			echo "----------------------------------------------------------------"
 			echo
 			break
@@ -643,21 +643,21 @@ shadowsocks_password_config() {
 shadowsocks_ciphers_config() {
 
 	while :; do
-		echo -e "请选择 "$yellow"Shadowsocks"$none" 加密协议 [${magenta}1-${#ciphers[*]}$none]"
+		echo -e "please choose "$yellow"Shadowsocks"$none" encryption protocol [${magenta}1-${#ciphers[*]}$none]"
 		for ((i = 1; i <= ${#ciphers[*]}; i++)); do
 			ciphers_show="${ciphers[$i - 1]}"
 			echo
 			echo -e "$yellow $i. $none${ciphers_show}"
 		done
 		echo
-		read -p "$(echo -e "(默认加密协议: ${cyan}${ciphers[1]}$none)"):" ssciphers_opt
+		read -p "$(echo -e "(Default encryption protocol: ${cyan}${ciphers[1]}$none)"):" ssciphers_opt
 		[ -z "$ssciphers_opt" ] && ssciphers_opt=2
 		case $ssciphers_opt in
 		[1-3])
 			ssciphers=${ciphers[$ssciphers_opt - 1]}
 			echo
 			echo
-			echo -e "$yellow Shadowsocks 加密协议 = $cyan${ssciphers}$none"
+			echo -e "$yellow Shadowsocks encryption protocol = $cyan${ssciphers}$none"
 			echo "----------------------------------------------------------------"
 			echo
 			break
@@ -674,52 +674,52 @@ shadowsocks_ciphers_config() {
 install_info() {
 	clear
 	echo
-	echo " ....准备安装了咯..看看有毛有配置正确了..."
+	echo "....ready to install.. to see if the configuration is correct..."
 	echo
-	echo "---------- 安装信息 -------------"
+	echo "---------- installation information -------------"
 	echo
-	echo -e "$yellow V2Ray 传输协议 = $cyan${transport[$v2ray_transport - 1]}$none"
+	echo -e "$yellow V2Ray Transfer Protocol = $cyan${transport[$v2ray_transport - 1]}$none"
 
 	if [[ $v2ray_transport == [45] || $v2ray_transport == 33 ]]; then
 		echo
-		echo -e "$yellow V2Ray 端口 = $cyan$v2ray_port$none"
+		echo -e "$yellow V2Ray port = $cyan$v2ray_port$none"
 		echo
-		echo -e "$yellow 你的域名 = $cyan$domain$none"
+		echo -e "$yellow your domain = $cyan$domain$none"
 		echo
-		echo -e "$yellow 域名解析 = ${cyan}我确定已经有解析了$none"
+		echo -e "$yellow domain name resolution = ${cyan} I'm sure $none has been resolved"
 		echo
-		echo -e "$yellow 自动配置 TLS = $cyan$install_caddy_info$none"
+		echo -e "$yellow autoconfig TLS = $cyan$install_caddy_info$none"
 
 		if [[ $ban_ad ]]; then
 			echo
-			echo -e "$yellow 广告拦截 = $cyan$blocked_ad_info$none"
+			echo -e "$yellow ad blocking = $cyan$blocked_ad_info$none"
 		fi
 		if [[ $is_path ]]; then
 			echo
-			echo -e "$yellow 路径分流 = ${cyan}/${path}$none"
+			echo -e "$yellow path diversion = ${cyan}/${path}$none"
 		fi
 	elif [[ $v2ray_transport -ge 18 && $v2ray_transport -ne 33 ]]; then
 		echo
-		echo -e "$yellow V2Ray 端口 = $cyan$v2ray_port$none"
+		echo -e "$yellow V2Ray port = $cyan$v2ray_port$none"
 		echo
-		echo -e "$yellow V2Ray 动态端口范围 = $cyan${v2ray_dynamic_port_start_input} - ${v2ray_dynamic_port_end_input}$none"
+		echo -e "$yellow V2Ray dynamic port range = $cyan${v2ray_dynamic_port_start_input} - ${v2ray_dynamic_port_end_input}$none"
 
 		if [[ $ban_ad ]]; then
 			echo
-			echo -e "$yellow 广告拦截 = $cyan$blocked_ad_info$none"
+			echo -e "$yellow ad blocking = $cyan$blocked_ad_info$none"
 		fi
 	else
 		echo
-		echo -e "$yellow V2Ray 端口 = $cyan$v2ray_port$none"
+		echo -e "$yellow V2Ray port = $cyan$v2ray_port$none"
 
 		if [[ $ban_ad ]]; then
 			echo
-			echo -e "$yellow 广告拦截 = $cyan$blocked_ad_info$none"
+			echo -e "$yellow ad blocking = $cyan$blocked_ad_info$none"
 		fi
 	fi
 	if [ $shadowsocks ]; then
 		echo
-		echo -e "$yellow Shadowsocks 端口 = $cyan$ssport$none"
+		echo -e "$yellow Shadowsocks port = $cyan$ssport$none"
 		echo
 		echo -e "$yellow Shadowsocks 密码 = $cyan$sspass$none"
 		echo
