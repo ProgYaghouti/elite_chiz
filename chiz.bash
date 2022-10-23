@@ -721,12 +721,12 @@ install_info() {
 		echo
 		echo -e "$yellow Shadowsocks port = $cyan$ssport$none"
 		echo
-		echo -e "$yellow Shadowsocks 密码 = $cyan$sspass$none"
+		echo -e "$yellow Shadowsocks password = $cyan$sspass$none"
 		echo
-		echo -e "$yellow Shadowsocks 加密协议 = $cyan${ssciphers}$none"
+		echo -e "$yellow Shadowsocks encryption protocol = $cyan${ssciphers}$none"
 	else
 		echo
-		echo -e "$yellow 是否配置 Shadowsocks = ${cyan}未配置${none}"
+		echo -e "$yellowWhether to configure Shadowsocks = ${cyan} not configured ${none}"
 	fi
 	echo
 	echo "---------- END -------------"
@@ -747,13 +747,13 @@ domain_check() {
 	test_domain=$(curl -sH 'accept: application/dns-json' "https://cloudflare-dns.com/dns-query?name=$domain&type=A" | grep -oE "([0-9]{1,3}\.){3}[0-9]{1,3}" | head -1)
 	if [[ $test_domain != $ip ]]; then
 		echo
-		echo -e "$red 检测域名解析错误....$none"
+		echo -e "$red detects domain name resolution errors....$none"
 		echo
-		echo -e " 你的域名: $yellow$domain$none 未解析到: $cyan$ip$none"
+		echo -e "Your domain name: $yellow$domain$none does not resolve to: $cyan$ip$none"
 		echo
-		echo -e " 你的域名当前解析到: $cyan$test_domain$none"
+		echo -e "Your domain currently resolves to: $cyan$test_domain$none"
 		echo
-		echo "备注...如果你的域名是使用 Cloudflare 解析的话..在 Status 那里点一下那图标..让它变灰"
+		echo "Note...if your domain is resolved by Cloudflare..click the icon in Status..make it gray"
 		echo
 		exit 1
 	fi
@@ -792,9 +792,9 @@ install_v2ray() {
 	if [[ $local_install ]]; then
 		if [[ ! -d $(pwd)/config ]]; then
 			echo
-			echo -e "$red 哎呀呀...安装失败了咯...$none"
+			echo -e "$red oops...installation failed...$none"
 			echo
-			echo -e " 请确保你有完整的上传 233v2.com 的 V2Ray 一键安装脚本 & 管理脚本到当前 ${green}$(pwd) $none目录下"
+			echo -e "Please make sure you have uploaded the complete V2Ray one-click installation script & management script of 233v2.com to the current ${green}$(pwd) $none directory"
 			echo
 			exit 1
 		fi
@@ -809,9 +809,9 @@ install_v2ray() {
 
 	if [[ ! -d /etc/v2ray/233boy/v2ray ]]; then
 		echo
-		echo -e "$red 哎呀呀...克隆脚本仓库出错了...$none"
+		echo -e "$red oops... error in cloning script repository... $none"
 		echo
-		echo -e " 温馨提示..... 请尝试自行安装 Git: ${green}$cmd install -y git $none 之后再安装此脚本"
+		echo -e "Reminder.....Please try to install Git yourself: ${green}$cmd install -y git $none and then install this script"
 		echo
 		exit 1
 	fi
@@ -886,18 +886,18 @@ get_ip() {
 	[[ -z $ip ]] && ip=$(curl -s https://api.myip.com | grep -oE "([0-9]{1,3}\.){3}[0-9]{1,3}")
 	[[ -z $ip ]] && ip=$(curl -s icanhazip.com)
 	[[ -z $ip ]] && ip=$(curl -s myip.ipip.net | grep -oE "([0-9]{1,3}\.){3}[0-9]{1,3}")
-	[[ -z $ip ]] && echo -e "\n$red 这垃圾小鸡扔了吧！$none\n" && exit
+	[[ -z $ip ]] && echo -e "\n$red Throw away that rubbish chick！$none\n" && exit
 }
 
 error() {
 
-	echo -e "\n$red 输入错误！$none\n"
+	echo -e "\n$red input error！$none\n"
 
 }
 
 pause() {
 
-	read -rsp "$(echo -e "按 $green Enter 回车键 $none 继续....或按 $red Ctrl + C $none 取消.")" -d $'\n'
+	read -rsp "$(echo -e "按 $green Enter enter $none continue....or press $red Ctrl + C $none Cancel.")" -d $'\n'
 	echo
 }
 do_service() {
@@ -919,16 +919,16 @@ show_config_info() {
 install() {
 	if [[ -f /usr/bin/v2ray/v2ray && -f /etc/v2ray/config.json ]] && [[ -f $backup && -d /etc/v2ray/233boy/v2ray ]]; then
 		echo
-		echo " 大佬...你已经安装 V2Ray 啦...无需重新安装"
+		echo " Big guy...you already installed V2Ray...no need to reinstall"
 		echo
-		echo -e " $yellow输入 ${cyan}v2ray${none} $yellow即可管理 V2Ray${none}"
+		echo -e " $yellow输入 ${cyan}v2ray${none} $yellow to manage V2Ray${none}"
 		echo
 		exit 1
 	elif [[ -f /usr/bin/v2ray/v2ray && -f /etc/v2ray/config.json ]] && [[ -f /etc/v2ray/233blog_v2ray_backup.txt && -d /etc/v2ray/233boy/v2ray ]]; then
 		echo
-		echo "  如果你需要继续安装.. 请先卸载旧版本"
+		echo "  If you need to continue the installation.. please uninstall the old version first"
 		echo
-		echo -e " $yellow输入 ${cyan}v2ray uninstall${none} $yellow即可卸载${none}"
+		echo -e " $yellow enter ${cyan}v2ray uninstall${none} $yellow can uninstall ${none}"
 		echo
 		exit 1
 	fi
@@ -965,19 +965,19 @@ uninstall() {
 			_load uninstall.sh
 		else
 			echo
-			echo -e " $yellow输入 ${cyan}v2ray uninstall${none} $yellow即可卸载${none}"
+			echo -e " $input yellow ${cyan}v2ray uninstall${none} $yellow to uninstall${none}"
 			echo
 		fi
 
 	elif [[ -f /usr/bin/v2ray/v2ray && -f /etc/v2ray/config.json ]] && [[ -f /etc/v2ray/233blog_v2ray_backup.txt && -d /etc/v2ray/233boy/v2ray ]]; then
 		echo
-		echo -e " $yellow输入 ${cyan}v2ray uninstall${none} $yellow即可卸载${none}"
+		echo -e " $input yellow ${cyan}v2ray uninstall${none} $yellow to uninstall${none}"
 		echo
 	else
 		echo -e "
-		$red 大胸弟...你貌似毛有安装 V2Ray ....卸载个鸡鸡哦...$none
+		$red big tits...you seem to have V2Ray installed....uninstall a dick...$none
 
-		备注...仅支持卸载使用我 (233v2.com) 提供的 V2Ray 一键安装脚本
+		Remarks...Only supports uninstalling and using the V2Ray one-click installation script provided by me (233v2.com)
 		" && exit 1
 	fi
 
@@ -996,13 +996,13 @@ local)
 	;;
 *)
 	echo
-	echo -e " 你输入的这个参数 <$red $args $none> ...这个是什么鬼啊...脚本不认识它哇"
+	echo -e "The parameter you entered <$red $args $none>...what the hell is this...the script doesn't recognize it"
 	echo
-	echo -e " 这个辣鸡脚本仅支持输入$green local / online $none参数"
+	echo -e "This spicy chicken script only supports input $green local / online $none parameter"
 	echo
-	echo -e " 输入$yellow local $none即是使用本地安装"
+	echo -e "Enter $yellow local $none to use local installation"
 	echo
-	echo -e " 输入$yellow online $none即是使用在线安装 (默认)"
+	echo -e "Enter $yellow online $none to use online installation (default)"
 	echo
 	exit 1
 	;;
@@ -1011,18 +1011,18 @@ esac
 clear
 while :; do
 	echo
-	echo "........... V2Ray 一键安装脚本 & 管理脚本 by 233v2.com .........."
+	echo ".......... V2Ray one-click installation script & management script by 233v2.com .........."
 	echo
-	echo "帮助说明: https://233v2.com/post/1/"
+	echo "Help Description: https://233v2.com/post/1/"
 	echo
-	echo "搭建教程: https://233v2.com/post/2/"
+	echo "Building Tutorial: https://233v2.com/post/2/"
 	echo
-	echo " 1. 安装"
+	echo "1. Install"
 	echo
-	echo " 2. 卸载"
+	echo "2. Uninstall"
 	echo
 	if [[ $local_install ]]; then
-		echo -e "$yellow 温馨提示.. 本地安装已启用 ..$none"
+		echo -e "$yellow Reminder.. Local installation is enabled..$none"
 		echo
 	fi
 	read -p "$(echo -e "please choose [${magenta}1-2$none]:")" choose
