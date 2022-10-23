@@ -1025,7 +1025,7 @@ while :; do
 		echo -e "$yellow 温馨提示.. 本地安装已启用 ..$none"
 		echo
 	fi
-	read -p "$(echo -e "请选择 [${magenta}1-2$none]:")" choose
+	read -p "$(echo -e "please choose [${magenta}1-2$none]:")" choose
 	case $choose in
 	1)
 		install
